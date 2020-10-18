@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CharacterSheet.Controls.AbilityScoreView"
+             x:Name="this"
+             BackgroundColor="Green"
+             BindingContext="{x:Reference this}">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="20" />
+        <RowDefinition Height="20" />
+        <RowDefinition Height="20" />
+        <RowDefinition Height="20" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <Label Text="{Binding AbilityName}" d:Text="Strength" HorizontalOptions="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
+    <Label Text="2" HorizontalOptions="Center" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
+    <Label Text="Score" HorizontalOptions="Center" Grid.Column="0" Grid.Row="2"/>
+    <Label Text="Save" HorizontalOptions="Center" Grid.Column="1" Grid.Row="2"/>
+    <Label Text="?" HorizontalOptions="Center" Grid.Column="0" Grid.Row="3"/>
+    <Label Text="?" HorizontalOptions="Center" Grid.Column="1" Grid.Row="3"/>
+</Grid>
