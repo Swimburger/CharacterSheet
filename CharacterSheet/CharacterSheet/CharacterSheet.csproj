@@ -19,6 +19,9 @@
     <Compile Update="Controls\AbilityScoreView.xaml.cs">
       <DependentUpon>AbilityScoreView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\EditLabelView.xaml.cs">
+      <DependentUpon>EditLabelView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\KeyValueView.xaml.cs">
       <DependentUpon>KeyValueView.xaml</DependentUpon>
     </Compile>

@@ -9,6 +9,9 @@
              Orientation="Vertical" 
              BackgroundColor="Orange"
              BindingContext="{x:Reference this}">
+    <StackLayout.GestureRecognizers>
+        <TapGestureRecognizer Tapped="OnTapped"  NumberOfTapsRequired="1" />
+    </StackLayout.GestureRecognizers>
     <Label Text="{Binding BoxTitle}"  d:Text="H.P." HorizontalOptions="Center" />
-    <Label Text="{Binding BoxKey}"  d:Text="20" HorizontalOptions="Center"/>
+    <Label Text="{Binding BoxValue}"  d:Text="20" HorizontalOptions="Center"/>
 </StackLayout>

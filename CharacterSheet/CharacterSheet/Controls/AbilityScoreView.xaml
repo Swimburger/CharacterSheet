@@ -18,10 +18,36 @@
         <ColumnDefinition />
         <ColumnDefinition />
     </Grid.ColumnDefinitions>
-    <Label Text="{Binding AbilityName}" d:Text="Strength" HorizontalOptions="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
-    <Label Text="2" HorizontalOptions="Center" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
-    <Label Text="Score" HorizontalOptions="Center" Grid.Column="0" Grid.Row="2"/>
-    <Label Text="Save" HorizontalOptions="Center" Grid.Column="1" Grid.Row="2"/>
-    <Label Text="?" HorizontalOptions="Center" Grid.Column="0" Grid.Row="3"/>
-    <Label Text="?" HorizontalOptions="Center" Grid.Column="1" Grid.Row="3"/>
+    <Label Text="{Binding AbilityName}" d:Text="Strength" HorizontalOptions="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnModifierTapped" NumberOfTapsRequired="1" />
+        </Label.GestureRecognizers>
+    </Label>
+    <Label Text="{Binding AbilityModifierValue}" HorizontalOptions="Center" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnModifierTapped" NumberOfTapsRequired="1" />
+        </Label.GestureRecognizers>
+    </Label>
+    
+    <Label Text="Score" HorizontalOptions="Center" Grid.Column="0" Grid.Row="2">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnScoreTapped" NumberOfTapsRequired="1" />
+        </Label.GestureRecognizers>
+    </Label>
+    <Label Text="{Binding AbilityScoreValue}" HorizontalOptions="Center" Grid.Column="0" Grid.Row="3">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnScoreTapped" NumberOfTapsRequired="1" />
+        </Label.GestureRecognizers>
+    </Label>
+
+    <Label Text="Save" HorizontalOptions="Center" Grid.Column="1" Grid.Row="2">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnSaveTapped" NumberOfTapsRequired="1" />
+        </Label.GestureRecognizers>
+    </Label>
+    <Label Text="{Binding AbilitySaveValue}" HorizontalOptions="Center" Grid.Column="1" Grid.Row="3">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnSaveTapped" NumberOfTapsRequired="1" />
+        </Label.GestureRecognizers>
+    </Label>
 </Grid>

@@ -15,6 +15,7 @@ namespace CharacterSheet.Views
     {
         public HomePage()
         {
+            Style = (Style)Application.Current.Resources["PageStyle"];
             Content = new ScrollView
             {
                 Content = BuildGrid()
@@ -31,7 +32,7 @@ namespace CharacterSheet.Views
             return grid;
         }
 
-        private static void AddColumns(Grid grid, JObject layoutObject)
+        private void AddColumns(Grid grid, JObject layoutObject)
         {
             JArray columns = (JArray)layoutObject["grid"]["columns"];
             foreach (var columnValue in columns.Children<JValue>())
@@ -69,7 +70,7 @@ namespace CharacterSheet.Views
             }
         }
 
-        private static void AddRows(Grid grid, JObject layoutObject)
+        private void AddRows(Grid grid, JObject layoutObject)
         {
             JArray rows = (JArray)layoutObject["grid"]["rows"];
             foreach (var rowValue in rows.Children<JValue>())
@@ -107,7 +108,7 @@ namespace CharacterSheet.Views
             }
         }
 
-        private static Grid AddWidgets(Grid grid, JObject layoutObject)
+        private Grid AddWidgets(Grid grid, JObject layoutObject)
         {
             var widgets = (JArray)layoutObject["widgets"];
             foreach (JObject widget in widgets)
@@ -121,17 +122,34 @@ namespace CharacterSheet.Views
                 View view;
                 switch (widgetView)
                 {
-                    case "label":
-                        view = new Label
+                    case "editLabel":
+                        view = new EditLabelView(this)
                         {
-                            Text = name
+                            LabelTitle = name,
+                            LabelKey = key,
+                            LabelValue = widget.Value<string>("defaultValue")
                         };
                         break;
                     case "keyValue":
-                        view = new KeyValueView { BoxTitle = name, BoxKey = key };
+                        view = new KeyValueView(this)
+                        {
+                            BoxTitle = name,
+                            BoxKey = key,
+                            BoxValue = widget.Value<string>("defaultValue")
+                        };
                         break;
                     case "abilityScore":
-                        view = new AbilityScoreView { AbilityName = name, AbilityKey = key };
+                        var defaultModifierValue = widget.Value<string>("defaultModifierValue");
+                        var defaultScoreValue = widget.Value<string>("defaultScoreValue");
+                        var defaultSaveValue = widget.Value<string>("defaultSaveValue");
+                        view = new AbilityScoreView(this)
+                        {
+                            AbilityName = name,
+                            AbilityKey = key,
+                            AbilityModifierValue = defaultModifierValue,
+                            AbilitySaveValue = defaultSaveValue,
+                            AbilityScoreValue = defaultScoreValue
+                        };
                         break;
                     default:
                         continue;

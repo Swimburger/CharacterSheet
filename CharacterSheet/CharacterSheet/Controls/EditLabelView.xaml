@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CharacterSheet.Controls.EditLabelView"
+             x:Name="this"
+             BindingContext="{x:Reference this}"
+             >
+    <Label d:Text="Name: ">
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnTapped"  NumberOfTapsRequired="1" />
+        </Label.GestureRecognizers>
+        <Label.FormattedText>
+            <FormattedString>
+                <Span Text="{Binding LabelTitle}"/>
+                <Span Text=" "/>
+                <Span Text="{Binding LabelValue}"/>
+            </FormattedString>
+        </Label.FormattedText>
+    </Label>
+</ContentView>

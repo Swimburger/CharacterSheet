@@ -6,11 +6,12 @@
   "widgets": [
     {
       "column": 0,
-      "row": 2,
-      "view": "label",
+      "row": 0,
+      "view": "editLabel",
       "type": "string",
       "key": "name",
-      "name": "Name"
+      "name": "Name",
+      "defaultValue": "[Enter name]"
     },
     {
       "column": 0,
@@ -18,7 +19,8 @@
       "view": "keyValue",
       "type": "string",
       "key": "race",
-      "name": "Race"
+      "name": "Race",
+      "defaultValue": "Enter race"
     },
     {
       "column": 0,
@@ -27,7 +29,10 @@
       "view": "abilityScore",
       "type": "abilityScore",
       "key": "strength",
-      "name": "Strength"
+      "name": "Strength",
+      "defaultModifierValue": "+0",
+      "defaultScoreValue": "0",
+      "defaultSaveValue": "0"
     },
     {
       "column": 0,
@@ -36,7 +41,10 @@
       "view": "abilityScore",
       "type": "abilityScore",
       "key": "dexterity",
-      "name": "Dexterity"
+      "name": "Dexterity",
+      "defaultModifierValue": "+0",
+      "defaultScoreValue": "0",
+      "defaultSaveValue": "0"
     },
     {
       "column": 0,
@@ -45,16 +53,20 @@
       "view": "abilityScore",
       "type": "abilityScore",
       "key": "constitution",
-      "name": "Constitution"
+      "name": "Constitution",
+      "defaultModifierValue": "+0",
+      "defaultScoreValue": "0",
+      "defaultSaveValue": "0"
     },
 
     {
       "column": 1,
       "row": 0,
-      "view": "label",
+      "view": "editLabel",
       "type": "string",
       "key": "level",
-      "name": "Level"
+      "name": "Level",
+      "defaultValue": 1
     },
     {
       "column": 1,
@@ -62,7 +74,8 @@
       "view": "keyValue",
       "type": "integer",
       "key": "hp",
-      "name": "H.P."
+      "name": "H.P.",
+      "defaultValue": "0"
     },
     {
       "column": 1,
@@ -70,7 +83,8 @@
       "view": "keyValue",
       "type": "integer",
       "key": "armor-class",
-      "name": "Armor Class"
+      "name": "Armor Class",
+      "defaultValue": "0"
     },
     {
       "column": 1,
@@ -78,7 +92,8 @@
       "view": "keyValue",
       "type": "integer",
       "key": "initiative",
-      "name": "Initiative"
+      "name": "Initiative",
+      "defaultValue": "0"
     },
     {
       "column": 1,
@@ -86,7 +101,8 @@
       "view": "keyValue",
       "type": "string",
       "key": "speed",
-      "name": "Speed"
+      "name": "Speed",
+      "defaultValue": "0"
     },
     {
       "column": 1,
@@ -94,7 +110,8 @@
       "view": "keyValue",
       "type": "string",
       "key": "hit-dice",
-      "name": "Hit Dice"
+      "name": "Hit Dice",
+      "defaultValue": "0"
     },
     {
       "column": 1,
@@ -102,7 +119,8 @@
       "view": "keyValue",
       "type": "string",
       "key": "life-style",
-      "name": "Life Style"
+      "name": "Life Style",
+      "defaultValue": "Unknown"
     },
 
     {
@@ -111,7 +129,8 @@
       "view": "keyValue",
       "type": "string",
       "key": "class",
-      "name": "Class"
+      "name": "Class",
+      "defaultValue": "Enter Class"
     },
     {
       "column": 2,
@@ -120,7 +139,10 @@
       "view": "abilityScore",
       "type": "abilityScore",
       "key": "intelligence",
-      "name": "Intelligence"
+      "name": "Intelligence",
+      "defaultModifierValue": "+0",
+      "defaultScoreValue": "0",
+      "defaultSaveValue": "0"
     },
     {
       "column": 2,
@@ -129,7 +151,10 @@
       "view": "abilityScore",
       "type": "abilityScore",
       "key": "wisdom",
-      "name": "Wisdom"
+      "name": "Wisdom",
+      "defaultModifierValue": "+0",
+      "defaultScoreValue": "0",
+      "defaultSaveValue": "0"
     },
     {
       "column": 2,
@@ -138,7 +163,10 @@
       "view": "abilityScore",
       "type": "abilityScore",
       "key": "charisma",
-      "name": "Charisma"
+      "name": "Charisma",
+      "defaultModifierValue": "+0",
+      "defaultScoreValue": "0",
+      "defaultSaveValue": "0"
     }
   ]
 }
