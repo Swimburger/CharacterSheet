@@ -10,10 +10,10 @@ using Xamarin.Forms.Xaml;
 namespace CharacterSheet.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TitleTextBoxView : StackLayout
+    public partial class KeyValueView : StackLayout
     {
-        public static readonly BindableProperty BoxTitleProperty = BindableProperty.Create(nameof(BoxTitle), typeof(string), typeof(TitleTextBoxView), string.Empty);
-        public static readonly BindableProperty BoxKeyProperty = BindableProperty.Create(nameof(BoxKey), typeof(string), typeof(TitleTextBoxView), string.Empty);
+        public static readonly BindableProperty BoxTitleProperty = BindableProperty.Create(nameof(BoxTitle), typeof(string), typeof(KeyValueView), string.Empty);
+        public static readonly BindableProperty BoxKeyProperty = BindableProperty.Create(nameof(BoxKey), typeof(string), typeof(KeyValueView), string.Empty);
 
         public string BoxTitle
         {
@@ -27,7 +27,7 @@ namespace CharacterSheet.Controls
             set => SetValue(BoxKeyProperty, value);
         }
 
-        public TitleTextBoxView()
+        public KeyValueView()
         {
             InitializeComponent();
         }

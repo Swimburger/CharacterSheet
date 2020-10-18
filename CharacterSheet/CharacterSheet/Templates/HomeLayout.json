@@ -1,0 +1,144 @@
+{
+  "grid": {
+    "columns": [ "*", "*", "*" ],
+    "rows": [ 20, 60, 60, 60, 60, 60, 60, 60 ]
+  },
+  "widgets": [
+    {
+      "column": 0,
+      "row": 2,
+      "view": "label",
+      "type": "string",
+      "key": "name",
+      "name": "Name"
+    },
+    {
+      "column": 0,
+      "row": 1,
+      "view": "keyValue",
+      "type": "string",
+      "key": "race",
+      "name": "Race"
+    },
+    {
+      "column": 0,
+      "row": 2,
+      "rowSpan": 2,
+      "view": "abilityScore",
+      "type": "abilityScore",
+      "key": "strength",
+      "name": "Strength"
+    },
+    {
+      "column": 0,
+      "row": 4,
+      "rowSpan": 2,
+      "view": "abilityScore",
+      "type": "abilityScore",
+      "key": "dexterity",
+      "name": "Dexterity"
+    },
+    {
+      "column": 0,
+      "row": 6,
+      "rowSpan": 2,
+      "view": "abilityScore",
+      "type": "abilityScore",
+      "key": "constitution",
+      "name": "Constitution"
+    },
+
+    {
+      "column": 1,
+      "row": 0,
+      "view": "label",
+      "type": "string",
+      "key": "level",
+      "name": "Level"
+    },
+    {
+      "column": 1,
+      "row": 1,
+      "view": "keyValue",
+      "type": "integer",
+      "key": "hp",
+      "name": "H.P."
+    },
+    {
+      "column": 1,
+      "row": 2,
+      "view": "keyValue",
+      "type": "integer",
+      "key": "armor-class",
+      "name": "Armor Class"
+    },
+    {
+      "column": 1,
+      "row": 3,
+      "view": "keyValue",
+      "type": "integer",
+      "key": "initiative",
+      "name": "Initiative"
+    },
+    {
+      "column": 1,
+      "row": 4,
+      "view": "keyValue",
+      "type": "string",
+      "key": "speed",
+      "name": "Speed"
+    },
+    {
+      "column": 1,
+      "row": 5,
+      "view": "keyValue",
+      "type": "string",
+      "key": "hit-dice",
+      "name": "Hit Dice"
+    },
+    {
+      "column": 1,
+      "row": 6,
+      "view": "keyValue",
+      "type": "string",
+      "key": "life-style",
+      "name": "Life Style"
+    },
+
+    {
+      "column": 2,
+      "row": 1,
+      "view": "keyValue",
+      "type": "string",
+      "key": "class",
+      "name": "Class"
+    },
+    {
+      "column": 2,
+      "row": 2,
+      "rowSpan": 2,
+      "view": "abilityScore",
+      "type": "abilityScore",
+      "key": "intelligence",
+      "name": "Intelligence"
+    },
+    {
+      "column": 2,
+      "row": 4,
+      "rowSpan": 2,
+      "view": "abilityScore",
+      "type": "abilityScore",
+      "key": "wisdom",
+      "name": "Wisdom"
+    },
+    {
+      "column": 2,
+      "row": 6,
+      "rowSpan": 2,
+      "view": "abilityScore",
+      "type": "abilityScore",
+      "key": "charisma",
+      "name": "Charisma"
+    }
+  ]
+}
