@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharacterSheet.Android", "CharacterSheet\CharacterSheet.Android\CharacterSheet.Android.csproj", "{82D2EA36-98DC-4AA2-9589-F39A21E29B83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharacterSheet", "CharacterSheet\CharacterSheet\CharacterSheet.csproj", "{86C32F37-AC50-4171-92CA-422023D07D35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharacterSheet", "CharacterSheet\CharacterSheet\CharacterSheet.csproj", "{86C32F37-AC50-4171-92CA-422023D07D35}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

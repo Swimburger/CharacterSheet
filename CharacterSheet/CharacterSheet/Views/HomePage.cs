@@ -1,4 +1,6 @@
 ﻿using CharacterSheet.Controls;
+using CharacterSheet.Data;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -6,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace CharacterSheet.Views
@@ -16,19 +18,23 @@ namespace CharacterSheet.Views
         public HomePage()
         {
             Style = (Style)Application.Current.Resources["PageStyle"];
+        }
+
+        protected override async void OnAppearing()
+        {
             Content = new ScrollView
             {
-                Content = BuildGrid()
+                Content = await BuildGridAsync()
             };
         }
 
-        private Grid BuildGrid()
+        private async Task<Grid> BuildGridAsync()
         {
             var grid = new Grid();
-            JObject layoutObject = GetLayoutObject();
+            JObject layoutObject = await Task.Run(() => GetLayoutObject());
             AddColumns(grid, layoutObject);
             AddRows(grid, layoutObject);
-            AddWidgets(grid, layoutObject);
+            await AddWidgetsAsync(grid, layoutObject);
             return grid;
         }
 
@@ -108,58 +114,91 @@ namespace CharacterSheet.Views
             }
         }
 
-        private Grid AddWidgets(Grid grid, JObject layoutObject)
+        private async Task<Grid> AddWidgetsAsync(Grid grid, JObject layoutObject)
         {
             var widgets = (JArray)layoutObject["widgets"];
-            foreach (JObject widget in widgets)
+            var widgetObjects = widgets
+                .OfType<JObject>()
+                .Select((widget) =>
+                {
+                    return new
+                    {
+                        Name = widget.Value<string>("name"),
+                        Key = widget.Value<string>("key"),
+                        Column = widget.Value<int>("column"),
+                        Row = widget.Value<int>("row"),
+                        RowSpan = widget.Value<int?>("rowSpan"),
+                        WidgetView = widget.Value<string>("view"),
+                        Type = widget.Value<string>("type"),
+                        DefaultValue = widget.Value<string>("defaultValue"),
+                        DefaultModifierValue = widget.Value<string>("defaultModifierValue"),
+                        DefaultScoreValue = widget.Value<string>("defaultScoreValue"),
+                        DefaultSaveValue = widget.Value<string>("defaultSaveValue")
+                    };
+                })
+                .ToList();
+
+            var widgetKeys = widgetObjects.Select(w => w.Key).ToList();
+            var abilityKeys = widgetObjects
+                .Where(w => w.Type == "abilityScore")
+                .SelectMany((w) => new string[] {
+                    $"{w.Key}-modifier",
+                    $"{w.Key}-score",
+                    $"{w.Key}-save",
+                });
+            widgetKeys.AddRange(abilityKeys);
+
+            Dictionary<string, string> keyValues;
+            using (var keyValueContext = new KeyValueContext())
             {
-                var name = widget.Value<string>("name");
-                var key = widget.Value<string>("key");
-                var column = widget.Value<int>("column");
-                var row = widget.Value<int>("row");
-                var rowSpan = widget.Value<int?>("rowSpan");
-                var widgetView = widget.Value<string>("view");
+                keyValues = await keyValueContext.KeyValues
+                    .Where(kv => widgetKeys.Contains(kv.Key))
+                    .ToDictionaryAsync((kv) => kv.Key, (kv) => kv.Value);
+            }
+
+            foreach (var widgetObject in widgetObjects)
+            {
                 View view;
-                switch (widgetView)
+                switch (widgetObject.WidgetView)
                 {
                     case "editLabel":
                         view = new EditLabelView(this)
                         {
-                            LabelTitle = name,
-                            LabelKey = key,
-                            LabelValue = widget.Value<string>("defaultValue")
+                            LabelTitle = widgetObject.Name,
+                            LabelKey = widgetObject.Key,
+                            LabelValue = keyValues.ContainsKey(widgetObject.Key) ? keyValues[widgetObject.Key] : widgetObject.DefaultValue
                         };
                         break;
                     case "keyValue":
                         view = new KeyValueView(this)
                         {
-                            BoxTitle = name,
-                            BoxKey = key,
-                            BoxValue = widget.Value<string>("defaultValue")
+                            BoxTitle = widgetObject.Name,
+                            BoxKey = widgetObject.Key,
+                            BoxValue = keyValues.ContainsKey(widgetObject.Key) ? keyValues[widgetObject.Key] : widgetObject.DefaultValue
                         };
                         break;
                     case "abilityScore":
-                        var defaultModifierValue = widget.Value<string>("defaultModifierValue");
-                        var defaultScoreValue = widget.Value<string>("defaultScoreValue");
-                        var defaultSaveValue = widget.Value<string>("defaultSaveValue");
+                        var modifierKey = $"{widgetObject.Key}-modifier";
+                        var saveKey = $"{widgetObject.Key}-save";
+                        var scoreKey = $"{widgetObject.Key}-score";
                         view = new AbilityScoreView(this)
                         {
-                            AbilityName = name,
-                            AbilityKey = key,
-                            AbilityModifierValue = defaultModifierValue,
-                            AbilitySaveValue = defaultSaveValue,
-                            AbilityScoreValue = defaultScoreValue
+                            AbilityName = widgetObject.Name,
+                            AbilityKey = widgetObject.Key,
+                            AbilityModifierValue = keyValues.ContainsKey(modifierKey) ? keyValues[modifierKey] : widgetObject.DefaultModifierValue,
+                            AbilitySaveValue = keyValues.ContainsKey(saveKey) ? keyValues[saveKey] : widgetObject.DefaultSaveValue,
+                            AbilityScoreValue = keyValues.ContainsKey(scoreKey) ? keyValues[scoreKey] : widgetObject.DefaultScoreValue,
                         };
                         break;
                     default:
                         continue;
                 }
 
-                Grid.SetColumn(view, column);
-                Grid.SetRow(view, row);
-                if (rowSpan != null)
+                Grid.SetColumn(view, widgetObject.Column);
+                Grid.SetRow(view, widgetObject.Row);
+                if (widgetObject.RowSpan != null)
                 {
-                    Grid.SetRowSpan(view, rowSpan.Value);
+                    Grid.SetRowSpan(view, widgetObject.RowSpan.Value);
                 }
                 grid.Children.Add(view);
             }
@@ -174,7 +213,6 @@ namespace CharacterSheet.Views
 
             using (var reader = new StreamReader(stream))
             {
-
                 var json = reader.ReadToEnd();
                 var layoutObject = JsonConvert.DeserializeObject<JObject>(json);
                 return layoutObject;

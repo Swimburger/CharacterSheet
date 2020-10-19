@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CharacterSheet.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,6 +49,20 @@ namespace CharacterSheet.Controls
             if(result != null)
             {
                 BoxValue = result;
+                using (var keyValueContext = new KeyValueContext())
+                {
+                    var keyValue = await keyValueContext.KeyValues.SingleOrDefaultAsync(kv => kv.Key == BoxKey);
+                    if (keyValue == null)
+                    {
+                        keyValue = new KeyValue { Key = BoxKey, Value = result };
+                        keyValueContext.KeyValues.Add(keyValue);
+                    }
+                    else
+                    {
+                        keyValue.Value = result;
+                    }
+                    await keyValueContext.SaveChangesAsync();
+                }
             }
         }
     }

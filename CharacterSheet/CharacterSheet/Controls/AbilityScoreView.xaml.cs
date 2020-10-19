@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CharacterSheet.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -61,6 +63,21 @@ namespace CharacterSheet.Controls
             if (result != null)
             {
                 AbilityModifierValue = result;
+                using (var keyValueContext = new KeyValueContext())
+                {
+                    var key = $"{AbilityKey}-modifier";
+                    var keyValue = await keyValueContext.KeyValues.SingleOrDefaultAsync(kv => kv.Key == key);
+                    if (keyValue == null)
+                    {
+                        keyValue = new KeyValue { Key = key, Value = result };
+                        keyValueContext.KeyValues.Add(keyValue);
+                    }
+                    else
+                    {
+                        keyValue.Value = result;
+                    }
+                    await keyValueContext.SaveChangesAsync();
+                }
             }
         }
 
@@ -70,6 +87,21 @@ namespace CharacterSheet.Controls
             if (result != null)
             {
                 AbilityScoreValue = result;
+                using (var keyValueContext = new KeyValueContext())
+                {
+                    var key = $"{AbilityKey}-score";
+                    var keyValue = await keyValueContext.KeyValues.SingleOrDefaultAsync(kv => kv.Key == key);
+                    if (keyValue == null)
+                    {
+                        keyValue = new KeyValue { Key = key, Value = result };
+                        keyValueContext.KeyValues.Add(keyValue);
+                    }
+                    else
+                    {
+                        keyValue.Value = result;
+                    }
+                    await keyValueContext.SaveChangesAsync();
+                }
             }
         }
 
@@ -79,6 +111,21 @@ namespace CharacterSheet.Controls
             if (result != null)
             {
                 AbilitySaveValue = result;
+                using (var keyValueContext = new KeyValueContext())
+                {
+                    var key = $"{AbilityKey}-save";
+                    var keyValue = await keyValueContext.KeyValues.SingleOrDefaultAsync(kv => kv.Key == key);
+                    if (keyValue == null)
+                    {
+                        keyValue = new KeyValue { Key = key, Value = result };
+                        keyValueContext.KeyValues.Add(keyValue);
+                    }
+                    else
+                    {
+                        keyValue.Value = result;
+                    }
+                    await keyValueContext.SaveChangesAsync();
+                }
             }
         }
     }
