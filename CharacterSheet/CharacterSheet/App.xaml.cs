@@ -1,7 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using CharacterSheet.Services;
 using CharacterSheet.Views;
 
 namespace CharacterSheet
@@ -12,8 +11,6 @@ namespace CharacterSheet
         public App()
         {
             InitializeComponent();
-
-            DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
         }
 
