@@ -15,52 +15,61 @@ namespace CharacterSheet.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EquipmentsPage : ContentPage
     {
-        private Equipment[] allEquipments;
-        public ObservableRangeCollection<Equipment> Equipments { get; set; } = new ObservableRangeCollection<Equipment>();
+        private readonly List<E5Resource> allItems = new List<E5Resource>();
+        public ObservableRangeCollection<E5Resource> Items { get; set; } = new ObservableRangeCollection<E5Resource>();
 
         public EquipmentsPage()
         {
             InitializeComponent();
-            EquipmentsListView.ItemsSource = Equipments;
+            EquipmentsListView.ItemsSource = Items;
         }
 
         protected override async void OnAppearing()
         {
+            allItems.Clear();
+            Items.Clear();
             var e5Client = new E5Client();
-            var equipmentsListResponse = await e5Client.GetEquipments();
-            allEquipments = equipmentsListResponse.Results;
-            Equipments.AddRange(GetFilteredEquipments(EquipmentsFilterEntry.Text));
+            await Task.WhenAll(LoadEquipment(e5Client), LoadMagicItems(e5Client));
+        }
+
+        private async Task LoadEquipment(E5Client e5Client)
+        {
+            var equipmentsList = await e5Client.GetEquipmentsAsync();
+            allItems.AddRange(equipmentsList.Results);
+            Items.AddRange(GetFilteredEquipments(EquipmentsFilterEntry.Text));
+        }
+
+        private async Task LoadMagicItems(E5Client e5Client)
+        {
+            var magicItemsList = await e5Client.GetMagicItemsAsync();
+            allItems.AddRange(magicItemsList.Results);
+            Items.AddRange(GetFilteredEquipments(EquipmentsFilterEntry.Text));
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)
+            {
                 return;
+            }
 
-            await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
-
-            //Deselect Item
-            ((ListView)sender).SelectedItem = null;
+            var detailsPage = new EquipmentDetailsPage((E5Resource)e.Item);
+            await Navigation.PushAsync(detailsPage);
         }
 
         private void EquipmentsFilterEntry_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Equipments.ReplaceRange(GetFilteredEquipments(e.NewTextValue));
+            Items.ReplaceRange(GetFilteredEquipments(e.NewTextValue));
         }
 
-        private IEnumerable<Equipment> GetFilteredEquipments(string filter)
+        private IEnumerable<E5Resource> GetFilteredEquipments(string filter)
         {
-            if(allEquipments == null)
-            {
-                return Enumerable.Empty<Equipment>();
-            }
-
             if (string.IsNullOrEmpty(filter))
             {
-                return allEquipments;
+                return allItems;
             }
 
-            return allEquipments.Where(eq => eq.Name.IndexOf(filter, 0, StringComparison.OrdinalIgnoreCase) != -1);
+            return allItems.Where(eq => eq.Name.IndexOf(filter, 0, StringComparison.OrdinalIgnoreCase) != -1);
         }
     }
 }

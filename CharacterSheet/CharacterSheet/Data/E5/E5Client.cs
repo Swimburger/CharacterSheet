@@ -13,7 +13,7 @@ namespace CharacterSheet.Data.E5
             BaseAddress = new Uri("https://www.dnd5eapi.co/api/")
         };
 
-        public async Task<ListResponse<Equipment[]>> GetEquipments()
+        public async Task<ListResponse<Equipment[]>> GetEquipmentsAsync()
         {
             var response = await httpClient.GetAsync("equipment");
             response.EnsureSuccessStatusCode();
@@ -23,47 +23,32 @@ namespace CharacterSheet.Data.E5
             return equipments;
         }
 
-        public async Task<EquipmentDetails> GetEquipment(string index)
+        public async Task<EquipmentDetails> GetEquipmentDetailsAsync(string index)
         {
             var response = await httpClient.GetAsync($"equipment/{index}");
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
-            var type = DetectEquipmentType(responseContent);
-            var equipment = (EquipmentDetails)JsonConvert.DeserializeObject(responseContent, type);
-            return equipment;
+            var equipmentDetails = JsonConvert.DeserializeObject<EquipmentDetails>(responseContent);
+            return equipmentDetails;
         }
 
-        private readonly Dictionary<string, Type> EquipmentCategoryToTypeMap = new Dictionary<string, Type>
+        public async Task<ListResponse<MagicItem[]>> GetMagicItemsAsync()
         {
-            {
-                "\"equipment_category\":{\"index\":\"weapon\",\"name\":\"Weapon\",\"url\":\"/api/equipment-categories/weapon\"}",
-                typeof(Weapon)
-            },
-            {
-                "\"equipment_category\":{\"index\":\"armor\",\"name\":\"Armor\",\"url\":\"/api/equipment-categories/armor\"}",
-                typeof(Armor)
-            },
-            {
-                "\"gear_category\":{\"index\":\"equipment-packs\",\"name\":\"Equipment Packs\",\"url\":\"/api/equipment-categories/equipment-packs\"}",
-                typeof(EquipmentPack)
-            },
-            {
-                "\"equipment_category\":{\"index\":\"adventuring-gear\",\"name\":\"Adventuring Gear\",\"url\":\"/api/equipment-categories/adventuring-gear\"}",
-                typeof(AdventuringGear)
-            }
-        };
+            var response = await httpClient.GetAsync("magic-items");
+            response.EnsureSuccessStatusCode();
+            var magicItems = JsonConvert.DeserializeObject<ListResponse<MagicItem[]>>(
+                await response.Content.ReadAsStringAsync()
+            );
+            return magicItems;
+        }
 
-        private Type DetectEquipmentType(string json)
+        public async Task<MagicItemDetails> GetMagicItemDetailsAsync(string index)
         {
-            foreach (var detectionString in EquipmentCategoryToTypeMap.Keys)
-            {
-                if (json.Contains(detectionString))
-                {
-                    return EquipmentCategoryToTypeMap[detectionString];
-                }
-            }
-
-            return typeof(EquipmentDetails);
+            var response = await httpClient.GetAsync($"magic-items/{index}");
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var magicItemDetails = JsonConvert.DeserializeObject<MagicItemDetails>(responseContent);
+            return magicItemDetails;
         }
     }
 }

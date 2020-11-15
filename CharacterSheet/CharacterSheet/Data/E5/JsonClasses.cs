@@ -11,29 +11,32 @@ namespace CharacterSheet.Data.E5
         public T Results { get; set; }
     }
 
-    public class Equipment
+    public class E5Resource
     {
+
         [JsonProperty("index")]
         public string Index { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("url")]
+        public string Url { get; set; }
     }
 
-    public class EquipmentDetails
+    public class Equipment : E5Resource { }
+
+    public class MagicItem : E5Resource { }
+
+    public class EquipmentDetails : E5Resource
     {
-        [JsonProperty("index")]
-        public string Index { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
         [JsonProperty("equipment_category")]
         public EquipmentCategory EquipmentCategory { get; set; }
-    }
 
-    public class Weapon : EquipmentDetails
-    {
+        [JsonProperty("desc")]
+        public string[] DescriptionLines { get; set; }
+
+        // weapon
         [JsonProperty("weapon_category")]
         public string WeaponCategory { get; set; }
 
@@ -53,14 +56,12 @@ namespace CharacterSheet.Data.E5
         public Range Range { get; set; }
 
         [JsonProperty("weight")]
-        public int Weight { get; set; }
+        public int? Weight { get; set; }
 
         [JsonProperty("properties")]
         public Property[] Properties { get; set; }
-    }
 
-    public class Armor : EquipmentDetails
-    {
+        // armor
         [JsonProperty("armor_category")]
         public string ArmorCategory { get; set; }
 
@@ -68,37 +69,22 @@ namespace CharacterSheet.Data.E5
         public ArmorClass ArmorClass { get; set; }
 
         [JsonProperty("str_minimum")]
-        public int StrMinimum { get; set; }
+        public int? StrMinimum { get; set; }
 
         [JsonProperty("stealth_disadvantage")]
-        public bool StealthDisadvantage { get; set; }
+        public bool? StealthDisadvantage { get; set; }
 
-        [JsonProperty("weight")]
-        public int Weight { get; set; }
-
-        [JsonProperty("cost")]
-        public Cost Cost { get; set; }
-    }
-
-    public class AdventuringGear : EquipmentDetails
-    {
+        // adventuring gear
+        [JsonProperty("gear_category")]
         public GearCategory GearCategory { get; set; }
 
-        [JsonProperty("cost")]
-        public Cost Cost { get; set; }
+        // equipment pack
 
-        [JsonProperty("weight")]
-        public int Weight { get; set; }
+        [JsonProperty("contents")]
+        public EquipmentPackContent[] Contents { get; set; }
     }
 
-    public class EquipmentCategory
-    {
-        [JsonProperty("index")]
-        public string Index { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-    }
+    public class EquipmentCategory : E5Resource { }
 
     public class Cost
     {
@@ -118,14 +104,7 @@ namespace CharacterSheet.Data.E5
         public DamageType DamageType { get; set; }
     }
 
-    public class DamageType
-    {
-        [JsonProperty("index")]
-        public string Index { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-    }
+    public class DamageType : E5Resource { }
 
     public class Range
     {
@@ -133,17 +112,10 @@ namespace CharacterSheet.Data.E5
         public int Normal { get; set; }
 
         [JsonProperty("long")]
-        public object Long { get; set; }
+        public int? Long { get; set; }
     }
 
-    public class Property
-    {
-        [JsonProperty("index")]
-        public string Index { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-    }
+    public class Property : E5Resource { }
 
     public class ArmorClass
     {
@@ -157,28 +129,7 @@ namespace CharacterSheet.Data.E5
         public object MaxBonus { get; set; }
     }
 
-    public class GearCategory
-    {
-        [JsonProperty("index")]
-        public string Index { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-    }
-
-
-    public class EquipmentPack : EquipmentDetails
-    {
-        [JsonProperty("gear_category")]
-        public GearCategory GearCategory { get; set; }
-
-        [JsonProperty("cost")]
-        public Cost Cost { get; set; }
-
-        [JsonProperty("contents")]
-        public EquipmentPackContent[] Contents { get; set; }
-    }
-
+    public class GearCategory : E5Resource { }
 
     public class EquipmentPackContent
     {
@@ -189,15 +140,7 @@ namespace CharacterSheet.Data.E5
         public int Quantity { get; set; }
     }
 
-    public class EquipmentPackContentItem
-    {
-        [JsonProperty("index")]
-        public string Index { get; set; }
+    public class EquipmentPackContentItem : E5Resource { }
 
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("url")]
-        public string Url { get; set; }
-    }
+    public class MagicItemDetails : EquipmentDetails { }
 }

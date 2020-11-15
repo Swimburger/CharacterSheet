@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:utils="clr-namespace:CharacterSheet.Utils"
+             mc:Ignorable="d"
+             x:Class="CharacterSheet.Views.EquipmentDetailsPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <utils:StringNullOrEmptyBoolConverter x:Key="StringNullOrEmptyBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label 
+                Text="{Binding Name, StringFormat='Name: {0}'}" 
+                d:Text="Name: [NAME]"
+                />
+            <Label 
+                Text="{Binding Description}"
+                d:Text="[DESCRIPTION]"
+                IsVisible="{Binding Description, Converter={StaticResource StringNullOrEmptyBoolConverter}}"
+                />
+            <Label 
+                Text="{Binding Cost, StringFormat='Cost: {0}'}" 
+                d:Text="Cost: [COST]"
+                IsVisible="{Binding Cost, Converter={StaticResource StringNullOrEmptyBoolConverter}}"
+                />
+            <Label 
+                Text="{Binding DamageDice, StringFormat='Damage: {0}'}" 
+                d:Text="Damage: [DAMAGE_DICE]"
+                IsVisible="{Binding DamageDice, Converter={StaticResource StringNullOrEmptyBoolConverter}}"
+                />
+            <Label 
+                Text="{Binding DamageType, StringFormat='Damage type: {0}'}" 
+                d:Text="DamageType: [DAMAGE_TYPE]"
+                IsVisible="{Binding DamageType, Converter={StaticResource StringNullOrEmptyBoolConverter}}"
+                />
+            <Label 
+                Text="{Binding Range, StringFormat='Cost: {0}'}" 
+                d:Text="Range: [RANGE]"
+                IsVisible="{Binding Range, Converter={StaticResource StringNullOrEmptyBoolConverter}}"
+                />
+            <Label 
+                Text="{Binding Weight, StringFormat='Weight: {0} pounds'}" 
+                d:Text="Weight: [WEIGHT]"
+                IsVisible="{Binding Weight, Converter={StaticResource StringNullOrEmptyBoolConverter}}"
+                />
+            <Label 
+                Text="{Binding Properties, StringFormat='Properties: {0}'}" 
+                d:Text="Properties: [PROPERTIES]"
+                IsVisible="{Binding Properties, Converter={StaticResource StringNullOrEmptyBoolConverter}}"
+                />
+            <Label 
+                Text="{Binding ArmorClass, StringFormat='Armor Class: {0}'}" 
+                d:Text="Armor Class: [ARMOR_CLASS]"
+                IsVisible="{Binding ArmorClass, Converter={StaticResource StringNullOrEmptyBoolConverter}}"
+                />
+            <Label 
+                IsVisible="{Binding StealthDisadvantaged}"
+                Text="Stealth: Disadvantaged" 
+                />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

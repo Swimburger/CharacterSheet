@@ -23,7 +23,7 @@ namespace CharacterSheet.Test
         [TestMethod]
         public async Task Client_Should_Return_Equipments()
         {
-            var equipmentList = await e5Client.GetEquipments();
+            var equipmentList = await e5Client.GetEquipmentsAsync();
             Assert.IsNotNull(equipmentList);
             Assert.IsTrue(equipmentList.Count > 0);
             Assert.IsTrue(equipmentList.Results.Length > 0);
@@ -34,7 +34,7 @@ namespace CharacterSheet.Test
         [TestMethod]
         public async Task Client_Should_Return_Equipment_Club()
         {
-            var equipmentClub = (Weapon)await e5Client.GetEquipment("club");
+            var equipmentClub = (Weapon)await e5Client.GetEquipmentDetailsAsync("club");
             Assert.IsNotNull(equipmentClub);
             Assert.IsNotNull(equipmentClub.Index);
             Assert.IsNotNull(equipmentClub.Name);
@@ -46,7 +46,7 @@ namespace CharacterSheet.Test
         [TestMethod]
         public async Task Client_Should_Return_Equipment_Padded_Armor()
         {
-            var equipmentPadded = (Armor)await e5Client.GetEquipment("padded");
+            var equipmentPadded = (Armor)await e5Client.GetEquipmentDetailsAsync("padded");
             Assert.IsNotNull(equipmentPadded);
             Assert.IsNotNull(equipmentPadded.Index);
             Assert.IsNotNull(equipmentPadded.Name);
@@ -58,7 +58,7 @@ namespace CharacterSheet.Test
         [TestMethod]
         public async Task Client_Should_Return_Equipment_AdventuringGear()
         {
-            var adventuringGear = (AdventuringGear)await e5Client.GetEquipment("abacus");
+            var adventuringGear = (AdventuringGear)await e5Client.GetEquipmentDetailsAsync("abacus");
             Assert.IsNotNull(adventuringGear);
             Assert.IsNotNull(adventuringGear.Index);
             Assert.IsNotNull(adventuringGear.Name);
@@ -70,7 +70,7 @@ namespace CharacterSheet.Test
         [TestMethod]
         public async Task Client_Should_Return_Equipment_EquipmentPack()
         {
-            var equipmentPack = (EquipmentPack)await e5Client.GetEquipment("burglars-pack");
+            var equipmentPack = (EquipmentPack)await e5Client.GetEquipmentDetailsAsync("burglars-pack");
             Assert.IsNotNull(equipmentPack);
             Assert.IsNotNull(equipmentPack.Index);
             Assert.IsNotNull(equipmentPack.Name);
@@ -79,6 +79,28 @@ namespace CharacterSheet.Test
             Assert.IsTrue(equipmentPack.Contents.Length > 0);
             Assert.IsNotNull(equipmentPack.Contents[0].Item);
             Assert.IsNotNull(equipmentPack.Contents[0].Quantity > 0);
+        }
+
+        [TestMethod]
+        public async Task Client_Should_Return_MagicItems()
+        {
+            var magicItemList = await e5Client.GetMagicItemsAsync();
+            Assert.IsNotNull(magicItemList);
+            Assert.IsTrue(magicItemList.Count > 0);
+            Assert.IsTrue(magicItemList.Results.Length > 0);
+            Assert.IsNotNull(magicItemList.Results[0].Index);
+            Assert.IsNotNull(magicItemList.Results[0].Name);
+        }
+
+        [TestMethod]
+        public async Task Client_Should_Return_MagicItem_AdamantineArmor()
+        {
+            var adamantArmor = await e5Client.GetMagicItemDetailsAsync("adamantine-armor");
+            Assert.IsNotNull(adamantArmor);
+            Assert.IsNotNull(adamantArmor.Index);
+            Assert.IsNotNull(adamantArmor.Name);
+            Assert.IsNotNull(adamantArmor.DescriptionLines);
+            Assert.IsTrue(adamantArmor.DescriptionLines.Length > 0);
         }
     }
 }
