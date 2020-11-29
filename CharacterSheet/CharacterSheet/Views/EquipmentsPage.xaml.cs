@@ -1,12 +1,13 @@
 ﻿using CharacterSheet.Data.E5;
 using MvvmHelpers;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -28,8 +29,22 @@ namespace CharacterSheet.Views
         {
             allItems.Clear();
             Items.Clear();
+            if (Connectivity.NetworkAccess == NetworkAccess.None)
+            {
+                await DisplayAlert("No internet", "The app could not connect to the internet.", "OK");
+                return;
+            }
+
             var e5Client = new E5Client();
-            await Task.WhenAll(LoadEquipment(e5Client), LoadMagicItems(e5Client));
+            try
+            {
+                await Task.WhenAll(LoadEquipment(e5Client), LoadMagicItems(e5Client));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "An error occurred while loading equipments and magic items");
+                await DisplayAlert("Unexptected Error", "An error occurred while loading equipments and magic items.", "OK");
+            }
         }
 
         private async Task LoadEquipment(E5Client e5Client)

@@ -1,11 +1,12 @@
 ﻿using CharacterSheet.Data.E5;
 using CharacterSheet.ViewModels;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -32,18 +33,33 @@ namespace CharacterSheet.Views
 
         protected override async void OnAppearing()
         {
-            var e5Client = new E5Client();
-            EquipmentDetails equipmentDetails;
-            if (e5Resource.Url.StartsWith("/api/equipment"))
+            if (Connectivity.NetworkAccess == NetworkAccess.None)
             {
-                equipmentDetails = await e5Client.GetEquipmentDetailsAsync(e5Resource.Index);
+                await DisplayAlert("No internet", "The app could not connect to the internet.", "OK");
+                return;
             }
-            else if (e5Resource.Url.StartsWith("/api/magic-items"))
+
+            EquipmentDetails equipmentDetails = null;
+            try
             {
-                equipmentDetails = await e5Client.GetMagicItemDetailsAsync(e5Resource.Index);
+                var e5Client = new E5Client();
+                if (e5Resource.Url.StartsWith("/api/equipment"))
+                {
+                    equipmentDetails = await e5Client.GetEquipmentDetailsAsync(e5Resource.Index);
+                }
+                else if (e5Resource.Url.StartsWith("/api/magic-items"))
+                {
+                    equipmentDetails = await e5Client.GetMagicItemDetailsAsync(e5Resource.Index);
+                }
+                else
+                {
+                    return;
+                }
             }
-            else
+            catch (Exception ex)
             {
+                Log.Error(ex, "An error occurred while loading details");
+                await DisplayAlert("Unexptected Error", "An error occurred while loading details.", "OK");
                 return;
             }
 

@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Serilog;
 
 namespace CharacterSheet.Droid
 {
@@ -14,6 +15,10 @@ namespace CharacterSheet.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.AndroidLog()
+                .CreateLogger();
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
